@@ -13,10 +13,12 @@ import { ROLES_KEY } from "./decoratorCustom/auth-roles.decorator";
       ): boolean | Promise<boolean> | Observable<boolean>{
 
         const request = context.switchToHttp().getRequest();
+        
         const requiredRoles = this.reflector.getAllAndOverride<string[]>(ROLES_KEY, [
             context.getHandler(),
             context.getClass(),
         ])
+         
         if(!requiredRoles){
             return true
         }
