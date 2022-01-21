@@ -1,4 +1,3 @@
-
 import { ValidationPipeCustom } from './../pipes/validation.pipe';
 import { BanUserDto } from './dto/ban-user.dto';
 import { AddRoleDto } from './dto/add-role.dto';
@@ -23,7 +22,7 @@ export class UsersController {
 
     @UsePipes(ValidationPipeCustom)
     @Post()
-    create(@Body() userDto: CreateUserDto){
+    create(@Body("email") userDto: CreateUserDto){
         return this.usersService.createUser(userDto)
     }
     @ApiOperation({summary:"Get all users"})
@@ -32,6 +31,11 @@ export class UsersController {
     @Get()
     getAllUsers(){
         return this.usersService.getAllUsers()
+    }
+    @Post("user")
+    getByEmail(@Body() dtoEmail : {[key: string]: string}){
+        const { email }  = dtoEmail
+        return this.usersService.getUserByEmail(email)
     }
     @ApiOperation({summary:"Add Role"})
     @ApiResponse({status: 200, type: [Users]})
